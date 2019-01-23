@@ -1,7 +1,9 @@
 package com.camp.bit.todolist.debug;
 
 import android.Manifest;
+import android.content.ContentValues;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
@@ -13,11 +15,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.camp.bit.todolist.R;
+import com.camp.bit.todolist.db.TodoContract;
+import com.camp.bit.todolist.db.TodoDbHelper;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import static java.security.AccessController.getContext;
 
 public class DebugActivity extends AppCompatActivity {
 
@@ -65,7 +71,11 @@ public class DebugActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // TODO 把一段文本写入某个存储区的文件中，再读出来，显示在 fileText 上
-                fileText.setText("TODO");
+                StringBuilder todo = new StringBuilder();
+                todo.append("===== Internal Private =====\n").append(getInternalPath())
+                        .append("===== External Private =====\n").append(getExternalPrivatePath())
+                        .append("===== External Public =====\n").append(getExternalPublicPath());
+                fileText.setText(todo);
             }
         });
     }
